@@ -4,6 +4,10 @@ import com.udacity.jdnd.course3.critter.entity.Pet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Jpa repository to hold Pet entities
+ */
+
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
 }

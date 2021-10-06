@@ -1,10 +1,16 @@
 package com.udacity.jdnd.course3.critter.entity;
 
+import org.hibernate.annotations.Nationalized;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * Entity class to map pet data to PetRepository
+ */
+
 @Entity
-@Table(name="Pets")
+@Table(name="pets")
 public class Pet {
 
     @Id
@@ -13,6 +19,7 @@ public class Pet {
 
     private PetType type;
 
+    @Nationalized
     private String name;
 
     private LocalDate birthDate;
@@ -21,7 +28,7 @@ public class Pet {
     private String notes;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="customerId", nullable=false)
+    //@JoinColumn(name ="id", nullable=false)
     private Customer customer;
 
     public Pet() {
@@ -74,11 +81,11 @@ public class Pet {
         this.notes = notes;
     }
 
-    public Customer getCustomer() {
+    public Customer getOwner() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setOwner(Customer customer) {
         this.customer = customer;
     }
 }
