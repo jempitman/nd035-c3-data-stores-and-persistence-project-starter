@@ -1,9 +1,11 @@
 package com.udacity.jdnd.course3.critter.service;
 
+import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class CustomerService {
     private PetRepository petRepository;
 
 
-    public Customer save (Customer customer, List<Long> petIds){
+    public CustomerDTO save(Customer customer, List<Long> petIds){
 
         List<Pet> pets = new ArrayList<>();
 
@@ -33,8 +35,21 @@ public class CustomerService {
         }
 
         customer.setPets(pets);
-        return customerRepository.save(customer);
+
+        customerRepository.save(customer);
+
+        return createCustomerDTO(customer);
     }
 
+    public CustomerDTO createCustomerDTO(Customer customer){
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(customer, customerDTO);
+
+        List<Long> petIds = customer.getPets().stream().map(Pet::getId).collect(toList());
+        customerDTO.setPetIds(petIds);
+
+        return customerDTO;
+    }
 
 }

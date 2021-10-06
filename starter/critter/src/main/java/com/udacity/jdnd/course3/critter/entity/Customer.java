@@ -8,7 +8,7 @@ import java.util.List;
 //@Table(name = "customer")
 public class Customer extends User{
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column
