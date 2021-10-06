@@ -38,10 +38,14 @@ public class CustomerService {
 
         customerRepository.save(customer);
 
-        return createCustomerDTO(customer);
+        return convertToCustomerDTO(customer);
     }
 
-    public CustomerDTO createCustomerDTO(Customer customer){
+    public List<Customer> getAllCustomers(){
+        return customerRepository.findAll();
+    }
+
+    public CustomerDTO convertToCustomerDTO(Customer customer){
 
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
@@ -51,5 +55,9 @@ public class CustomerService {
 
         return customerDTO;
     }
+
+
+
+
 
 }
