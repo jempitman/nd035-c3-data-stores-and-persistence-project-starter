@@ -1,10 +1,21 @@
-package com.udacity.jdnd.course3.critter.user;
+package com.udacity.jdnd.course3.critter.controller;
 
+import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
+import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
+import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
+import com.udacity.jdnd.course3.critter.entity.Customer;
+import com.udacity.jdnd.course3.critter.entity.Pet;
+import com.udacity.jdnd.course3.critter.service.CustomerService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Handles web requests related to Users.
@@ -14,11 +25,25 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
+@Transactional
 public class UserController {
+
+    @Autowired
+    CustomerService customerService;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        throw new UnsupportedOperationException();
+
+
+        Customer customer = new Customer();
+        customer.setName(customerDTO.getName());
+        customer.setPhoneNumber(customerDTO.getPhoneNumber());
+        customer.setNotes(customerDTO.getNotes());
+
+        List<Long> petIds = customerDTO.getPetIds();
+
+        return createCustomerDTO(customerService.save(customer, petIds));
+
     }
 
     @GetMapping("/customer")
@@ -49,6 +74,17 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();
+    }
+
+    public CustomerDTO createCustomerDTO(Customer customer){
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(customer, customerDTO);
+
+        List<Long> petIds = customer.getPets().stream().map(Pet::getId).collect(toList());
+        customerDTO.setPetIds(petIds);
+
+        return customerDTO;
     }
 
 }
