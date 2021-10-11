@@ -28,7 +28,7 @@ public class Pet {
     private String notes;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    //@JoinColumn(name ="id", nullable=false)
+    @JoinColumn(name ="customer_id", nullable=false)
     private Customer customer;
 
     public Pet() {
