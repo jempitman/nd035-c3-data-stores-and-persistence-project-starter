@@ -26,7 +26,7 @@ public class CustomerService {
     private PetRepository petRepository;
 
 
-    public CustomerDTO save(Customer customer, List<Long> petIds){
+    public CustomerDTO saveCustomer(Customer customer, List<Long> petIds){
 
         List<Pet> pets = new ArrayList<>();
 
