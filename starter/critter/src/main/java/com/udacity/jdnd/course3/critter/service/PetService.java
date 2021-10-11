@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -34,6 +35,14 @@ public class PetService {
 
         return createPetDTO(pet);
 
+    }
+
+    public PetDTO getPetById(Long petId){
+        return createPetDTO(petRepository.getOne(petId));
+    }
+
+    public List<Pet> getAllPets(){
+        return petRepository.findAll();
     }
 
     public PetDTO createPetDTO (Pet pet){
