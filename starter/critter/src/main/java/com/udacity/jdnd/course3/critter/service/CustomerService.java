@@ -56,7 +56,11 @@ public class CustomerService {
         return customerDTO;
     }
 
-
+    public CustomerDTO getOwnerByPet(Long petId){
+        Pet pet = petRepository.getOne(petId);
+       Customer owner = pet.getOwner();
+        return createCustomerDTO(owner);
+    }
 
 
 
