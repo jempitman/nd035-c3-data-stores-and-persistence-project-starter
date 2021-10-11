@@ -45,6 +45,11 @@ public class PetService {
         return petRepository.findAll();
     }
 
+    public List<Pet> getPetsByOwnerId(Long ownerId) {
+        Customer owner = ownerRepository.getOne(ownerId);
+        return owner.getPets();
+    }
+
     public PetDTO createPetDTO (Pet pet){
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
