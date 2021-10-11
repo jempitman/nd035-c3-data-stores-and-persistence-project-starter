@@ -52,7 +52,8 @@ public class UserController {
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> customerList = customerService.getAllCustomers();
 
-        return customerList.stream().map(customer -> customerService.convertToCustomerDTO(customer)).collect(Collectors.toList());
+        return customerList.stream().map(customer ->
+                customerService.createCustomerDTO(customer)).collect(Collectors.toList());
     }
 
     @GetMapping("/customer/pet/{petId}")

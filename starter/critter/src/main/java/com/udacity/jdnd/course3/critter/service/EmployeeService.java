@@ -18,14 +18,14 @@ public class EmployeeService {
 
     public EmployeeDTO saveEmployee(Employee employee){
         employeeRepository.save(employee);
-        return convertToEmployeeDTO(employee);
+        return createEmployeeDTO(employee);
     }
 
     public EmployeeDTO findEmployeeById(Long employeeId){
-        return convertToEmployeeDTO(employeeRepository.getOne(employeeId));
+        return createEmployeeDTO(employeeRepository.getOne(employeeId));
     }
 
-    private EmployeeDTO convertToEmployeeDTO(Employee employee){
+    private EmployeeDTO createEmployeeDTO(Employee employee){
         EmployeeDTO employeeDTO = new EmployeeDTO();
         BeanUtils.copyProperties(employee, employeeDTO);
 
