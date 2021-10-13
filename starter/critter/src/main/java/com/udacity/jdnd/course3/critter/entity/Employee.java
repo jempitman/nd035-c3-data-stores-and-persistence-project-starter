@@ -2,7 +2,6 @@ package com.udacity.jdnd.course3.critter.entity;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
 import java.time.DayOfWeek;
 import java.util.Set;
 
@@ -14,11 +13,11 @@ import java.util.Set;
 public class Employee extends User {
 
     @ElementCollection
-    @JoinTable(name="employee_skills")
+    //@JoinTable(name="employee_skills")
     private Set<EmployeeSkill> skills;
 
     @ElementCollection
-    @JoinTable(name="employee_availability")
+    //@JoinTable(name="employee_availability")
     private Set<DayOfWeek> daysAvailable;
 
     public Employee(){

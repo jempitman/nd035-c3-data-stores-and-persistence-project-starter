@@ -67,13 +67,15 @@ public class UserController {
         employee.setName(employeeDTO.getName());
         employee.setSkills(employeeDTO.getSkills());
         employee.setDaysAvailable(employeeDTO.getDaysAvailable());
+        employeeService.saveEmployee(employee);
 
-        return employeeService.saveEmployee(employee);
+        return convertEmployeeToDTO(employee);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        return employeeService.findEmployeeById(employeeId);
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        return convertEmployeeToDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
@@ -84,6 +86,16 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();
+    }
+
+    private EmployeeDTO convertEmployeeToDTO(Employee employee){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setName(employee.getName());
+        employeeDTO.setSkills(employee.getSkills());
+        employeeDTO.setDaysAvailable(employee.getDaysAvailable());
+
+        return employeeDTO;
     }
 
 }
