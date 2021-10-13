@@ -1,11 +1,9 @@
 package com.udacity.jdnd.course3.critter.service;
 
-import com.udacity.jdnd.course3.critter.dto.PetDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,7 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
 
-    public PetDTO savePet (Pet pet, Long ownerId){
+    public Pet savePet (Pet pet, Long ownerId){
 
         Customer petOwner = ownerRepository.getOne(ownerId);
 
@@ -33,12 +31,12 @@ public class PetService {
         petOwner.getPets().add(pet);
         ownerRepository.save(petOwner);
 
-        return createPetDTO(pet);
+        return pet;
 
     }
 
-    public PetDTO getPetById(Long petId){
-        return createPetDTO(petRepository.getOne(petId));
+    public Pet getPetById(Long petId){
+        return petRepository.getOne(petId);
     }
 
     public List<Pet> getAllPets(){
@@ -50,14 +48,6 @@ public class PetService {
         return owner.getPets();
     }
 
-    public PetDTO createPetDTO (Pet pet){
-        PetDTO petDTO = new PetDTO();
-        BeanUtils.copyProperties(pet, petDTO);
-
-        petDTO.setOwnerId(pet.getOwner().getId());
-        return petDTO;
-
-    }
 
 
 }
