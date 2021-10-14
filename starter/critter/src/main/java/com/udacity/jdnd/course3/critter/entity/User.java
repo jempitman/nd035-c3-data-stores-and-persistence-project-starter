@@ -1,13 +1,10 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import org.hibernate.annotations.Nationalized;
-
-import javax.persistence.*;
-
 /**
  * User entity parent class
  */
 
+/*
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="user")
@@ -41,3 +38,5 @@ public class User {
         this.name = name;
     }
 }
+
+ */
