@@ -10,12 +10,12 @@ import java.time.LocalDate;
  */
 
 @Entity
-@Table(name="pets")
+//@Table(name="pets")
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private PetType type;
 
@@ -27,8 +27,8 @@ public class Pet {
     @Column(nullable = true)
     private String notes;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="customer_id", nullable=false)
+    @ManyToOne(targetEntity = Customer.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name ="customer", nullable=false)
     private Customer customer;
 
     public Pet() {
@@ -41,11 +41,11 @@ public class Pet {
         this.notes = notes;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -81,11 +81,11 @@ public class Pet {
         this.notes = notes;
     }
 
-    public Customer getOwner() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setOwner(Customer customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 }

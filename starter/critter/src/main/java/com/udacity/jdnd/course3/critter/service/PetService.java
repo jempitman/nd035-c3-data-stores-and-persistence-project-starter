@@ -1,6 +1,5 @@
 package com.udacity.jdnd.course3.critter.service;
 
-import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
@@ -15,28 +14,27 @@ import java.util.List;
 public class PetService {
 
     @Autowired
-    private CustomerRepository ownerRepository;
+    CustomerRepository ownerRepository;
 
     @Autowired
-    private PetRepository petRepository;
+    CustomerService customerService;
 
-    public Pet savePet (Pet pet, Long ownerId){
+    @Autowired
+    PetRepository petRepository;
 
-        Customer petOwner = ownerRepository.getOne(ownerId);
+    public Pet savePet (Pet pet){
 
-        pet.setOwner(petOwner);
+        Pet returnedPet = petRepository.save(pet);
+        if (pet.getCustomer() != null){
+            customerService.addPetToCustomer(pet, pet.getCustomer());
+        }
 
-        petRepository.save(pet);
-
-        petOwner.getPets().add(pet);
-        ownerRepository.save(petOwner);
-
-        return pet;
+        return returnedPet;
 
     }
 
-    public Pet getPetById(Long petId){
-        return petRepository.getOne(petId);
+    public Pet findPet(Long petId){
+        return petRepository.findById(petId).orElse(null);
     }
 
     public List<Pet> getAllPets(){
@@ -44,8 +42,7 @@ public class PetService {
     }
 
     public List<Pet> getPetsByOwnerId(Long ownerId) {
-        Customer owner = ownerRepository.getOne(ownerId);
-        return owner.getPets();
+        return petRepository.findByCustomerId(ownerId);
     }
 
 
