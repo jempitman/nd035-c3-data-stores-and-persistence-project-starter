@@ -7,11 +7,13 @@ import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
+import com.udacity.jdnd.course3.critter.service.PetService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/user")
-@Transactional
+//@Transactional
 public class UserController {
 
     @Autowired
@@ -33,18 +35,17 @@ public class UserController {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    PetService petService;
+
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
 
+        Customer newCustomer = customerService.saveCustomer(this.convertCustomerDTOtoCustomer(customerDTO));
 
-        Customer customer = new Customer();
-        customer.setName(customerDTO.getName());
-        customer.setPhoneNumber(customerDTO.getPhoneNumber());
-        customer.setNotes(customerDTO.getNotes());
+        customerDTO.setId(newCustomer.getId());
 
-        List<Long> petIds = customerDTO.getPetIds();
-
-        return customerService.saveCustomer(customer, petIds);
+        return customerDTO;
 
     }
 
@@ -52,35 +53,41 @@ public class UserController {
     public List<CustomerDTO> getAllCustomers(){
         List<Customer> customerList = customerService.getAllCustomers();
 
-        return customerList.stream().map(customer ->
-                customerService.createCustomerDTO(customer)).collect(Collectors.toList());
+        return customerList.stream()
+                .map(UserController::convertCustomerToCustomerDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        return customerService.getOwnerByPet(petId);
+        return convertCustomerToCustomerDTO(petService.findPet(petId).getCustomer());
     }
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        Employee employee = new Employee();
-        employee.setName(employeeDTO.getName());
-        employee.setSkills(employeeDTO.getSkills());
-        employee.setDaysAvailable(employeeDTO.getDaysAvailable());
-        employeeService.saveEmployee(employee);
 
-        return convertEmployeeToDTO(employee);
+        Employee employee = this.employeeService.saveEmployee(this.convertEmployeeDTOtoEmployee(employeeDTO));
+
+        employeeDTO.setId(employee.getId());
+//        employee.setName(employeeDTO.getName());
+//        employee.setSkills(employeeDTO.getSkills());
+//        employee.setDaysAvailable(employeeDTO.getDaysAvailable());
+//        employeeService.saveEmployee(employee);
+
+        return employeeDTO;
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        Employee employee = employeeService.findEmployeeById(employeeId);
+        Employee employee = this.employeeService.findEmployeeById(employeeId);
         return convertEmployeeToDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+
+        this.employeeService.setAvailability(daysAvailable, employeeId);
+//        throw new UnsupportedOperationException();
     }
 
     @GetMapping("/employee/availability")
@@ -94,8 +101,35 @@ public class UserController {
         employeeDTO.setName(employee.getName());
         employeeDTO.setSkills(employee.getSkills());
         employeeDTO.setDaysAvailable(employee.getDaysAvailable());
+//        BeanUtils.copyProperties(employee, employeeDTO);
 
         return employeeDTO;
+    }
+
+    private Employee convertEmployeeDTOtoEmployee(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        return employee;
+    }
+
+    private Customer convertCustomerDTOtoCustomer(CustomerDTO customerDTO){
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        return customer;
+    }
+
+    private static CustomerDTO convertCustomerToCustomerDTO(Customer customer){
+        CustomerDTO customerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(customer, customerDTO);
+        List<Long> petIds = new ArrayList<>();
+        if (customer.getPets() != null){
+            customer.getPets().forEach(pet ->{
+                petIds.add(pet.getId());
+            });
+            customerDTO.setPetIds(petIds);
+        }
+
+        return customerDTO;
     }
 
 }

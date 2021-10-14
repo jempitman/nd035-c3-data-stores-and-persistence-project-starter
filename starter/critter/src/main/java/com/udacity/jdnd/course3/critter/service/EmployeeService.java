@@ -6,20 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.DayOfWeek;
+import java.util.Set;
 
-@Service
 @Transactional
+@Service
 public class EmployeeService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    EmployeeRepository employeeRepository;
 
     public Employee saveEmployee(Employee employee){
         return employeeRepository.save(employee);
     }
 
     public Employee findEmployeeById(Long employeeId){
-        return employeeRepository.getOne(employeeId);
+        return employeeRepository.findById(employeeId).orElse(null);
+    }
+
+    public void setAvailability(Set<DayOfWeek> daysAvailable, Long employeeId){
+        employeeRepository.getOne(employeeId).setDaysAvailable(daysAvailable);
+//        employee.setDaysAvailable(daysAvailable);
+//        employeeRepository.save(employee);
+//        System.out.println("Employee availability saved");
     }
 
 
