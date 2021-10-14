@@ -8,14 +8,12 @@ import com.udacity.jdnd.course3.critter.controller.UserController;
 import com.udacity.jdnd.course3.critter.dto.*;
 import com.udacity.jdnd.course3.critter.entity.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.entity.PetType;
-import org.h2.tools.Server;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.SQLException;
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,8 +29,10 @@ import java.util.stream.IntStream;
  *
  * These tests should all pass once the project is complete.
  */
-//@Transactional
-@SpringBootTest(classes = {CritterApplication.class})
+@Transactional
+@SpringBootTest(classes = {CritterApplication.class,
+                            H2DatabaseConfig.class
+})
 public class CritterFunctionalTest {
 
     @Autowired
@@ -47,11 +47,11 @@ public class CritterFunctionalTest {
 //    @Autowired
 //    TestEntityManager testEntityManager;
 
-    @BeforeAll
-    static void initTest() throws SQLException{
-        Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8085", "-webDaemon")
-                .start();
-    }
+//    @BeforeAll
+//    static void initTest() throws SQLException {
+//        Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8085", "-webDaemon")
+//                .start();
+//    }
 
     @Test
     public void testCreateCustomer(){
@@ -106,9 +106,16 @@ public class CritterFunctionalTest {
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
         PetDTO newPet = petController.savePet(petDTO);
-        petDTO.setType(PetType.DOG);
-        petDTO.setName("DogName");
-        PetDTO newPet2 = petController.savePet(petDTO);
+
+        PetDTO petDTO1 = createPetDTO();
+        petDTO1.setOwnerId(newCustomer.getId());
+        petDTO1.setName("Samson");
+        petDTO1.setType(PetType.DOG);
+        PetDTO newPet2 = petController.savePet(petDTO1);
+
+//        petDTO.setType(PetType.DOG);
+//        petDTO.setName("DogName");
+//        PetDTO newPet2 = petController.savePet(petDTO2);
 
         List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
         Assertions.assertEquals(pets.size(), 2);
@@ -137,6 +144,7 @@ public class CritterFunctionalTest {
         Assertions.assertNull(emp1.getDaysAvailable());
 
         Set<DayOfWeek> availability = Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY);
+//        Set<DayOfWeek> availability = Sets.newHashSet(DayOfWeek.MONDAY);
         userController.setAvailability(availability, emp1.getId());
 
         EmployeeDTO emp2 = userController.getEmployee(emp1.getId());
