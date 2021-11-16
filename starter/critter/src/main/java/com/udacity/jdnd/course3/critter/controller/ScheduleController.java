@@ -12,7 +12,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Schedules.
@@ -35,6 +37,7 @@ public class ScheduleController {
         //create new schedule object
         Schedule newSchedule = this.scheduleService.saveSchedule(this.convertScheduleDTOtoSchedule(scheduleDTO));
 
+        //assign newly created ID to scheduleDTO
         scheduleDTO.setId(newSchedule.getId());
 
         return scheduleDTO;
@@ -42,7 +45,12 @@ public class ScheduleController {
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        throw new UnsupportedOperationException();
+        //Fetch list of all schedules and convert to DTO
+        List<Schedule> scheduleList = scheduleService.getAllSchedules();
+
+        return scheduleList.stream()
+                .map(ScheduleController::convertScheduleToScheduleDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/pet/{petId}")
@@ -86,6 +94,34 @@ public class ScheduleController {
         schedule.setPets(pets);
 
         return schedule;
+    }
+
+    private static ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule){
+        //create new blank scheduleDTO
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        //transfer schedule details to scheduleDTO objects
+        BeanUtils.copyProperties(schedule, scheduleDTO);
+
+        //initialize temporary lists for pet and employee IDs
+        List<Long> employeeIds = new ArrayList<>();
+        List<Long> petIds = new ArrayList<>();
+
+        if (schedule.getEmployees() != null){
+            schedule.getEmployees().forEach(employee -> {
+                employeeIds.add(employee.getId());
+            });
+
+            scheduleDTO.setEmployeeIds(employeeIds);
+        }
+
+        if (schedule.getPets() != null){
+            schedule.getPets().forEach(pet -> {
+                petIds.add(pet.getId());
+            });
+            scheduleDTO.setPetIds(petIds);
+        }
+
+        return scheduleDTO;
     }
 
 }

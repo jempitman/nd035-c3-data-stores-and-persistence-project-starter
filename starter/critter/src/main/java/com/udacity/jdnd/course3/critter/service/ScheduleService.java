@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,6 +19,11 @@ public class ScheduleService {
     public Schedule saveSchedule(Schedule schedule){
         return scheduleRepository.save(schedule);
     }
+
+    public List<Schedule> getAllSchedules(){
+        return scheduleRepository.findAll();
+    }
+
 
 
 
