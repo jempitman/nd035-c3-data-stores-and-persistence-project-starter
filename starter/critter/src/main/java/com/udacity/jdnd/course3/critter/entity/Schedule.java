@@ -16,18 +16,18 @@ public class Schedule {
 
     //Multiple employees can have multiple schedules
     @ManyToMany(targetEntity = Employee.class, cascade = CascadeType.ALL)
-    //@Column(name ="schedule_employees")
+    @Column(name ="schedule_employees")
     private List<Employee> employees;
 
     //Multiple pets can have multiple schedules
     @ManyToMany(targetEntity = Pet.class)
-    //@Column(name = "schedule_pets")
+    @Column(name = "schedule_pets")
     private List<Pet> pets;
 
     private LocalDate date;
 
     @ElementCollection
-    //@JoinTable(name="schedule_activities")
+    @JoinTable(name="schedule_activities")
     private Set<EmployeeSkill> activities;
 
     public Schedule() {

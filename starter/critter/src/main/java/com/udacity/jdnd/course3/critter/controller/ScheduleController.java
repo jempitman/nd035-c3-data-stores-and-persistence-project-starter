@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.dto.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
+import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
@@ -31,6 +32,9 @@ public class ScheduleController {
 
     @Autowired
     PetService petService;
+
+    @Autowired
+    CustomerService customerService;
 
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
@@ -75,7 +79,17 @@ public class ScheduleController {
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-        throw new UnsupportedOperationException();
+
+        List<Pet> customerPets = petService.getPetsByOwnerId(customerId);
+
+        List<Schedule> customerSchedule = new ArrayList<>();
+
+        customerPets.forEach((pet) ->
+                customerSchedule.addAll(scheduleService.getScheduleByPet(pet.getId())));
+
+        return customerSchedule.stream()
+                .map(ScheduleController::convertScheduleToScheduleDTO)
+                .collect(Collectors.toList());
     }
 
     private Schedule convertScheduleDTOtoSchedule(ScheduleDTO scheduleDTO){
