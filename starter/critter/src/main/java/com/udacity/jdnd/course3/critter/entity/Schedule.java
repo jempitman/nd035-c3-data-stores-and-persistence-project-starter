@@ -12,32 +12,32 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     //Multiple employees can have multiple schedules
     @ManyToMany(targetEntity = Employee.class, cascade = CascadeType.ALL)
-    @Column(name ="schedule_employees")
+    //@Column(name ="schedule_employees")
     private List<Employee> employees;
 
     //Multiple pets can have multiple schedules
     @ManyToMany(targetEntity = Pet.class)
-    @Column(name = "schedule_pets")
+    //@Column(name = "schedule_pets")
     private List<Pet> pets;
 
     private LocalDate date;
 
     @ElementCollection
-    @JoinTable(name="schedule_activities")
+    //@JoinTable(name="schedule_activities")
     private Set<EmployeeSkill> activities;
 
     public Schedule() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
