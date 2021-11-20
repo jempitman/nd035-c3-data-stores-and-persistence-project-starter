@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.repository;
 
+import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
 
@@ -16,7 +17,7 @@ public interface ScheduleRepository {
 
     List<Schedule> findScheduleByPet(Pet pet);
 
-    List<Schedule> findScheduleByEmployee(Long employeeId);
+    List<Schedule> findScheduleByEmployee(Employee employee);
 
 
 //    private static final String FIND_ALL_SCHEDULES = "select s from Schedule s";

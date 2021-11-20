@@ -38,9 +38,9 @@ public class ScheduleService {
 
     }
 
-    //find all schedules according to petId
+    //find all schedules according to employeeId
     public List<Schedule> getScheduleByEmployee(Long employeeId){
-        return scheduleRepository.findScheduleByEmployee(employeeId);
+        return scheduleRepository.findScheduleByEmployee(employeeService.findEmployeeById(employeeId));
 
     }
 
