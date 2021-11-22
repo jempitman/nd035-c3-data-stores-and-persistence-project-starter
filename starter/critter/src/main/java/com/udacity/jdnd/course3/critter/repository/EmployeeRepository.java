@@ -1,11 +1,13 @@
 package com.udacity.jdnd.course3.critter.repository;
 
 import com.udacity.jdnd.course3.critter.entity.Employee;
+import com.udacity.jdnd.course3.critter.entity.EmployeeSkill;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Jpa repository to store Employee entities
@@ -13,5 +15,7 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    public List<Employee> findByDaysAvailable(DayOfWeek requestedDay);
+    List<Employee> findByDaysAvailable(DayOfWeek requestedDay);
+
+    List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek requestedDat, Set<EmployeeSkill> skills);
 }

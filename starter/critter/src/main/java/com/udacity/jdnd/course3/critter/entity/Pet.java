@@ -27,6 +27,7 @@ public class Pet {
     @Column(nullable = true)
     private String notes;
 
+//    @JsonBackReference
     @ManyToOne(targetEntity = Customer.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name ="customer", nullable=false)
     private Customer customer;
@@ -34,12 +35,12 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(PetType type, String name, LocalDate birthDate, String notes) {
-        this.type = type;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.notes = notes;
-    }
+//    public Pet(PetType type, String name, LocalDate birthDate, String notes) {
+//        this.type = type;
+//        this.name = name;
+//        this.birthDate = birthDate;
+//        this.notes = notes;
+//    }
 
     public long getId() {
         return id;

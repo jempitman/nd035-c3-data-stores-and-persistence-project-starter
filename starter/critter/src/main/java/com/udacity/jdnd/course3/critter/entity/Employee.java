@@ -10,6 +10,10 @@ import java.util.Set;
  * Child class of User to map Employee data to EmployeeRepository
  */
 
+@NamedQuery(
+        name = "Employee.findByDaysAvailable",
+        query = " select e from Employee e where e.daysAvailable = :daysAvailable")
+
 @Entity
 public class Employee {
 
@@ -21,12 +25,12 @@ public class Employee {
     private String name;
 
     @ElementCollection
-    //@JoinTable(name="employee_skills")
+    @JoinTable(name="employee_skills")
     private Set<EmployeeSkill> skills;
 
-//    @Enumerated(EnumType.ORDINAL)
-//    @Column(name="days")
-    //@JoinTable(name="employee_availability")
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="days")
+    @JoinTable(name="employee_availability")
     @ElementCollection
     private Set<DayOfWeek> daysAvailable;
 
