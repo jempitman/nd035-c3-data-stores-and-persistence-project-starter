@@ -15,12 +15,12 @@ public class Schedule {
     private Long id;
 
     //Multiple employees can have multiple schedules
-    @ManyToMany(targetEntity = Employee.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Employee.class, cascade = CascadeType.MERGE)
     @Column(name ="schedule_employees")
     private List<Employee> employees;
 
     //Multiple pets can have multiple schedules
-    @ManyToMany(targetEntity = Pet.class)
+    @ManyToMany(targetEntity = Pet.class, cascade = CascadeType.MERGE)
     @Column(name = "schedule_pets")
     private List<Pet> pets;
 
@@ -37,9 +37,9 @@ public class Schedule {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public List<Employee> getEmployees() {
         return employees;
