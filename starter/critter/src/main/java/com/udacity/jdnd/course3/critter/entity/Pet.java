@@ -15,7 +15,7 @@ public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private PetType type;
 
@@ -28,8 +28,8 @@ public class Pet {
     private String notes;
 
 //    @JsonBackReference
-    @ManyToOne(targetEntity = Customer.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name ="customer", nullable=false)
+    @ManyToOne(targetEntity = Customer.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable=false)
     private Customer customer;
 
     public Pet() {
@@ -42,13 +42,13 @@ public class Pet {
 //        this.notes = notes;
 //    }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public PetType getType() {
         return type;
