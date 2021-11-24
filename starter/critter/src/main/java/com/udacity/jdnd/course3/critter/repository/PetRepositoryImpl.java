@@ -8,6 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Implementing class for PetRepository interface
+ */
+
 @Repository
 public class PetRepositoryImpl implements PetRepository{
 

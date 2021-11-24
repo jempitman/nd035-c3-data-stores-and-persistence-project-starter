@@ -6,7 +6,7 @@ import com.udacity.jdnd.course3.critter.entity.Pet;
 import java.util.List;
 
 /**
- * repository interface to store Customer entities
+ * repository interface to persist Customer entities
  */
 
 public interface CustomerRepository {

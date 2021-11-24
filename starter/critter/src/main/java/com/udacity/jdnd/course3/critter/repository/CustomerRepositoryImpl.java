@@ -9,6 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Implementing class of CustomerRepository interface
+ */
+
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository{
 

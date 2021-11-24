@@ -6,8 +6,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to define Customer entities
+ */
+
 @Entity
-//@Table(name = "customer")
+@Table(name = "customer")
 public class Customer {
 
     @Id

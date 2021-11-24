@@ -6,6 +6,9 @@ import com.udacity.jdnd.course3.critter.entity.Schedule;
 
 import java.util.List;
 
+/**
+ * Interface to persist schedule entities
+ */
 
 public interface ScheduleRepository {
 

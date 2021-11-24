@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Service class to handle persistence and query requests for Schedule entities
+ */
+
 @Service
 @Transactional
 public class ScheduleService {

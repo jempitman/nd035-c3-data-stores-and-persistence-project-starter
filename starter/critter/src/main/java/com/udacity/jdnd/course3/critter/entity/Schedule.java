@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Class to define schedule entities
+ */
+
 @Entity
 @Table(name = "schedule")
 public class Schedule {

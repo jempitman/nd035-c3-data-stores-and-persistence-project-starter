@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Repository interface to store Employee entities
+ * Repository interface to persist Employee entities
  */
 
 public interface EmployeeRepository {
@@ -17,5 +17,5 @@ public interface EmployeeRepository {
 
     Employee findEmployeeById(Long id);
 
-    List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek requestedDat, Set<EmployeeSkill> skills);
+    List<Employee> findEmployeesByDaysAvailableAndSkills(DayOfWeek requestedDat, Set<EmployeeSkill> skills);
 }

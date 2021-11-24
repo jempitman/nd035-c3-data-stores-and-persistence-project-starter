@@ -44,15 +44,6 @@ public class CritterFunctionalTest {
     @Autowired
     private ScheduleController scheduleController;
 
-//    @Autowired
-//    TestEntityManager testEntityManager;
-
-//    @BeforeAll
-//    static void initTest() throws SQLException {
-//        Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8085", "-webDaemon")
-//                .start();
-//    }
-
     @Test
     public void testCreateCustomer(){
         CustomerDTO customerDTO = createCustomerDTO();

@@ -7,7 +7,7 @@ import java.time.DayOfWeek;
 import java.util.Set;
 
 /**
- * Employee Entity class
+ * Class to define Employee Entities
  */
 
 

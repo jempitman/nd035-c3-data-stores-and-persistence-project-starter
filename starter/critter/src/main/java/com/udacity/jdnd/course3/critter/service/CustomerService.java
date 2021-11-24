@@ -10,6 +10,10 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class to handle persistence and queries for Customer entities
+ */
+
 @Service
 @Transactional
 public class CustomerService {

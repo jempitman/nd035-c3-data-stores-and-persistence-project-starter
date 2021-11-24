@@ -15,6 +15,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * Configuration class to set up H2 in-memory database and for CritterFunctional tests
+ */
+
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.udacity.jdnd.course3.critter.repository" })
 @EnableTransactionManagement
@@ -32,7 +36,8 @@ public class H2DatabaseConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.udacity.jdnd.course3.critter.entity", "com.udacity.jdnd.course3.critter.repository", "com.udacity.jdnd.course3.critter.service");
+        em.setPackagesToScan("com.udacity.jdnd.course3.critter.entity", "com.udacity.jdnd.course3.critter.repository",
+                "com.udacity.jdnd.course3.critter.service");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         Properties properties = new Properties();

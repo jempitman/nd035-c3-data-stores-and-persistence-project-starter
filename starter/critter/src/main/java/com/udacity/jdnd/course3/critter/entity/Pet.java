@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
- * Entity class to map pet data to PetRepository
+ * Class to define Pet Entities
  */
 
 @Entity
-//@Table(name="pets")
+@Table(name="pets")
 public class Pet {
 
     @Id

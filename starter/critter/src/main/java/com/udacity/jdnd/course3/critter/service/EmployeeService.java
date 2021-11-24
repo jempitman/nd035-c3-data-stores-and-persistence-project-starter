@@ -13,6 +13,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service class to handle persistence and query requests for Employee entities
+ */
+
 @Transactional
 @Service
 public class EmployeeService {
@@ -36,7 +40,7 @@ public class EmployeeService {
     public List<Employee> getEmployeesForService(DayOfWeek requestedDay, Set<EmployeeSkill> requestedSkill){
 
         List<Employee> availableEmployeesWithOneOfTheSkills =
-                employeeRepository.findEmployeesByDaysAvailableAndSkillsIn(requestedDay, requestedSkill);
+                employeeRepository.findEmployeesByDaysAvailableAndSkills(requestedDay, requestedSkill);
         List<Employee> availableEmployeesWithAllOfTheSkills = new ArrayList<>();
 
         //Remove duplicates caused by employee having more than one of the request skills

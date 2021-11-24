@@ -42,7 +42,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
     }
 
     @Override
-    public List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek requestedDay, Set<EmployeeSkill> skills) {
+    public List<Employee> findEmployeesByDaysAvailableAndSkills(DayOfWeek requestedDay, Set<EmployeeSkill> skills) {
 
         TypedQuery<Employee> query = entityManager.createQuery(FIND_EMPLOYEE_BY_AVAILABILITY_AND_SKILL, Employee.class)
                 .setParameter("skills", skills)
