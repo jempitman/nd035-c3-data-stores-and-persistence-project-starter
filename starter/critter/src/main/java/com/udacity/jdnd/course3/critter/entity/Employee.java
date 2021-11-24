@@ -7,12 +7,9 @@ import java.time.DayOfWeek;
 import java.util.Set;
 
 /**
- * Child class of User to map Employee data to EmployeeRepository
+ * Employee Entity class
  */
 
-@NamedQuery(
-        name = "Employee.findByDaysAvailable",
-        query = " select e from Employee e where e.daysAvailable = :daysAvailable")
 
 @Entity
 public class Employee {
@@ -26,6 +23,7 @@ public class Employee {
 
     @ElementCollection (targetClass = EmployeeSkill.class)
     @JoinTable(name="employee_skills")
+    @Enumerated(EnumType.ORDINAL)
     private Set<EmployeeSkill> skills;
 
     @Enumerated(EnumType.ORDINAL)

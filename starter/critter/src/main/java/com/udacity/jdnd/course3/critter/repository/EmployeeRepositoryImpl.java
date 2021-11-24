@@ -10,13 +10,20 @@ import javax.persistence.TypedQuery;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+/**
+ * Implementing class for EmployeeRepository interface
+ */
+
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository{
 
     @Autowired
     EntityManager entityManager;
+
+    private static final String FIND_EMPLOYEE_BY_AVAILABILITY_AND_SKILL = "select distinct e from Employee e left " +
+            "join e.skills es left join e.daysAvailable ea where es in :skills and ea in :daysAvailable";
 
     @Override
     public Employee saveEmployee(Employee e) {
@@ -35,28 +42,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
     }
 
     @Override
-    public List<Employee> findByDaysAvailable(DayOfWeek requestedDay) {
-//        TypedQuery <Employee> query = entityManager.createQuery("select e from Employee e where");
-        return null;
-    }
-
-    @Override
     public List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek requestedDay, Set<EmployeeSkill> skills) {
 
-        String FIND_BY_SERVICE = "select e from Employee e, e.skills es, e.availability ea " +
-                "where e.id = es.id and e.id = ea.id and es.skills in (" + skills
-                .stream()
-                .map((skill) -> String.valueOf(skill.ordinal()))
-                .collect(Collectors.joining(",")) + ") AND ea.days = " + requestedDay.ordinal() + " ";
-
-
-//        TypedQuery <Employee> query = entityManager.createQuery("select distinct e from Employee e inner join e.skills es inner join e.availability ea" +
-//                " where es in (" + skills
-//                .stream()
-//                .map((skill) -> String.valueOf(skill.ordinal()))
-//                .collect(Collectors.joining(",")) + ") AND ea in " + requestedDay.ordinal() + " ", Employee.class);
-
-        TypedQuery <Employee> query = entityManager.createQuery(FIND_BY_SERVICE, Employee.class);
+        TypedQuery<Employee> query = entityManager.createQuery(FIND_EMPLOYEE_BY_AVAILABILITY_AND_SKILL, Employee.class)
+                .setParameter("skills", skills)
+                .setParameter("daysAvailable", requestedDay);
 
         return query.getResultList();
     }

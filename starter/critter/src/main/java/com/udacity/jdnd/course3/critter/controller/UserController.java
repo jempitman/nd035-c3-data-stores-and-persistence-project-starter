@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/user")
-//@Transactional
 public class UserController {
 
     @Autowired
@@ -95,16 +94,12 @@ public class UserController {
         List <Employee> employees = employeeService.getEmployeesForService(employeeDTO.getDate().getDayOfWeek(),
                 employeeDTO.getSkills());
 
-        return employees.stream().map(employee -> convertEmployeeToDTO(employee)).collect(Collectors.toList());
+        return employees.stream().map(this::convertEmployeeToDTO).collect(Collectors.toList());
     }
 
     private EmployeeDTO convertEmployeeToDTO(Employee employee){
         EmployeeDTO employeeDTO = new EmployeeDTO();
-        employeeDTO.setId(employee.getId());
-        employeeDTO.setName(employee.getName());
-        employeeDTO.setSkills(employee.getSkills());
-        employeeDTO.setDaysAvailable(employee.getDaysAvailable());
-//        BeanUtils.copyProperties(employee, employeeDTO);
+        BeanUtils.copyProperties(employee, employeeDTO);
 
         return employeeDTO;
     }

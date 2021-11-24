@@ -35,7 +35,8 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesForService(DayOfWeek requestedDay, Set<EmployeeSkill> requestedSkill){
 
-        List<Employee> availableEmployeesWithOneOfTheSkills = employeeRepository.findEmployeesByDaysAvailableAndSkillsIn(requestedDay, requestedSkill);
+        List<Employee> availableEmployeesWithOneOfTheSkills =
+                employeeRepository.findEmployeesByDaysAvailableAndSkillsIn(requestedDay, requestedSkill);
         List<Employee> availableEmployeesWithAllOfTheSkills = new ArrayList<>();
 
         //Remove duplicates caused by employee having more than one of the request skills
@@ -43,6 +44,7 @@ public class EmployeeService {
         availableEmployeesWithOneOfTheSkills.clear();
         availableEmployeesWithOneOfTheSkills.addAll(set);
 
+        //find employees with all of the requested skills
         for (Employee e : availableEmployeesWithOneOfTheSkills){
             if(e.getSkills().containsAll(requestedSkill)){
                 availableEmployeesWithAllOfTheSkills.add(e);

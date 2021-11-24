@@ -17,7 +17,5 @@ public interface EmployeeRepository {
 
     Employee findEmployeeById(Long id);
 
-    List<Employee> findByDaysAvailable(DayOfWeek requestedDay);
-
     List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek requestedDat, Set<EmployeeSkill> skills);
 }
