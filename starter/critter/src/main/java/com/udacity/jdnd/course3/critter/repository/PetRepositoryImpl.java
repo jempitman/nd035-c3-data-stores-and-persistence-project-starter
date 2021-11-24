@@ -16,7 +16,6 @@ public class PetRepositoryImpl implements PetRepository{
 
     private static final String FIND_ALL_PETS = "select p from Pet p";
 
-
     @Override
     public Pet savePet(Pet p) {
         if(p.getId() == null || p.getId() <= 0){

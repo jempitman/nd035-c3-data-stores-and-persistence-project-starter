@@ -24,14 +24,14 @@ public class Employee {
     @Nationalized
     private String name;
 
-    @ElementCollection
+    @ElementCollection (targetClass = EmployeeSkill.class)
     @JoinTable(name="employee_skills")
     private Set<EmployeeSkill> skills;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name="days")
     @JoinTable(name="employee_availability")
-    @ElementCollection
+    @ElementCollection (targetClass = DayOfWeek.class)
     private Set<DayOfWeek> daysAvailable;
 
     public Employee(){
@@ -46,9 +46,9 @@ public class Employee {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;

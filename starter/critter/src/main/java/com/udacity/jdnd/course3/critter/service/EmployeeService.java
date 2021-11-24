@@ -2,7 +2,7 @@ package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.EmployeeSkill;
-import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
+import com.udacity.jdnd.course3.critter.repository.EmployeeRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +18,19 @@ import java.util.Set;
 public class EmployeeService {
 
     @Autowired
-    EmployeeRepository employeeRepository;
+    EmployeeRepositoryImpl employeeRepository;
 
     public Employee saveEmployee(Employee employee){
-        return employeeRepository.save(employee);
+        return employeeRepository.saveEmployee(employee);
     }
 
     public Employee findEmployeeById(Long employeeId){
-        return employeeRepository.findById(employeeId).orElse(null);
+        return employeeRepository.findEmployeeById(employeeId);
     }
 
     public void setAvailability(Set<DayOfWeek> daysAvailable, Long employeeId){
-        employeeRepository.getOne(employeeId).setDaysAvailable(daysAvailable);
-//        employee.setDaysAvailable(daysAvailable);
-//        employeeRepository.save(employee);
-//        System.out.println("Employee availability saved");
+        employeeRepository.findEmployeeById(employeeId).setDaysAvailable(daysAvailable);
+
     }
 
     public List<Employee> getEmployeesForService(DayOfWeek requestedDay, Set<EmployeeSkill> requestedSkill){
